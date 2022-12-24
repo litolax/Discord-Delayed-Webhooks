@@ -1,0 +1,16 @@
+﻿.button {
+    width: 5%;
+    height: 5%;
+    min-width: 120px;
+    min-height: 50px;
+    font-size: calc(12px + 0.3vw);
+    background: rgb(6, 84, 201);
+    border: none;
+    border-radius: 5px;
+    color: rgb(225, 225, 225);
+    transition: background-color 0.35s linear;
+}
+
+.button:hover {
+    background-color: rgb(6, 64, 136);
+}

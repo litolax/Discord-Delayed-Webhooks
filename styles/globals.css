@@ -1,3 +1,6 @@
+/*@import url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300&display=swap");*/
+@import "./fonts/GreycliffCF/stylesheet.css";
+
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
@@ -86,7 +89,7 @@ body {
 }
 
 body {
-  color: rbg(--foreground-rgb);
+  color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
       transparent,
