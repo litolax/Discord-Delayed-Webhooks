@@ -1,6 +1,10 @@
 ﻿.input {
-    background: rgb(0, 0, 0);
-    border: 1px rgb(9, 112, 255) solid;
+    width: 53.5828282828vw;
+    height: 34px;
+    resize: none;
+    background: rgb(10, 25, 41);
+    border: 1px rgb(165, 165, 165) solid;
     outline: rgb(9, 112, 255);
-    opacity: 0.75;
+    
+    color: silver;
 }

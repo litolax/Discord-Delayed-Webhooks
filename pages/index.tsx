@@ -13,21 +13,3 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         props: {}
     };
 }
-
-
-// export async function getServerSideProps() {
-//     let {db} = await connectToDatabase();
-//
-//     let result = await db
-//         .collection('DayTimetables')
-//         .find({})
-//         .toArray()
-//
-//     // console.log(result);
-//
-//     return {
-//         props: {
-//             hello: ""
-//         },
-//     };
-// }

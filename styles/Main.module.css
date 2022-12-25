@@ -4,7 +4,7 @@
 }
 
 .container {
-    width: 70vw;
+    width: 60vw;
     height: 100vh;
     overflow: visible;
 
@@ -12,38 +12,11 @@
     position: absolute;
 }
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    width: 60vw;
-    height: 10vh;
-    padding: 4% 0 0 0;
-    margin-bottom: 2vh;
-}
-
-.headerSignOutButton {
-    width: 5.8854166667vw;
-    height: 3.4259259259vh;
-    min-width: 112.11px;
-    min-height: 36.5px;
-
-    font-family: 'Greycliff CF', sans-serif;
-    font-weight: 700;
-    font-size: 15px;
-    color: rgb(199, 209, 219);
-}
-
-.title {
-    font-family: 'Greycliff CF', sans-serif;
-    font-size: 25px;
-    color: rgb(199, 209, 219);
-}
 
 .love {
     font-family: 'Greycliff CF', sans-serif;
     font-size: 15px;
     color: rgb(199, 209, 219);
-    margin-top: 80vh;
 
     text-decoration: none;
     outline: none;
@@ -52,6 +25,7 @@
 .link {
     color: rgb(9, 112, 255);
     transition: color 0.2s linear;
+    text-decoration: none;
 }
 
 .link:hover{
@@ -60,4 +34,16 @@
 
 .love:focus {
     outline: none;
+}
+
+.navigation {
+    width: 45%;
+    gap: 35px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: left;
+    margin-bottom: 35px;
+    min-width: 173px;
+    min-height: 37px;
 }

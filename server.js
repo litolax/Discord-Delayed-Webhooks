@@ -3,6 +3,7 @@ import * as express from 'express';
 import * as dotenv from 'dotenv'
 import {MongoClient} from "mongodb";
 import {parse} from "url"
+import axios from "axios";
 
 
 
@@ -85,14 +86,59 @@ app.prepare().then(() => {
         }
     })
 
-    // setInterval(async() => {
-    //     let {db} = await databaseUse();
-    //
-    //     let result = await db
-    //         .collection('DayTimetables')
-    //         .find({})
-    //         .toArray()
-    //
-    //     console.log(result);
-    // }, 2000)
+    setInterval(async() => {
+        let { db } = await databaseUse();
+
+        const collection = await db.collection('Posts');
+        
+        const result = await collection
+            .find({sent: false})
+            .toArray()
+
+        for (const element of result) {
+            if (new Date() > new Date(element.publishDate) && !element.sent) {
+                sendWebhook(element.content)
+                await collection.updateOne({_id: element._id}, { $set: { sent: true}})
+        }}
+    }, 15000)
 })
+
+function sendWebhook(content) {
+    // let embeds = [
+    //     {
+    //         title: "Discord Webhook Example",
+    //         color: 5174599,
+    //         footer: {
+    //             text: props.text,
+    //         },
+    //         fields: [
+    //             {
+    //                 name: "Field Name",
+    //                 value: "Field Value"
+    //             },
+    //         ],
+    //     },
+    // ];
+
+    // let data = JSON.stringify( {embeds} );
+    let data = JSON.stringify({'content': content})
+
+    const url = process.env.WEBHOOK_URL;
+    const config = {
+        method: "POST",
+        url: url,
+        headers: { "Content-Type": "application/json" },
+        data: data,
+    };
+
+    axios(config)
+        .then((response) => {
+            console.log("Webhook delivered successfully");
+            return response;
+        })
+        .catch((error) => {
+            console.log(error);
+            return error;
+        });
+}
+

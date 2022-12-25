@@ -1,6 +1,6 @@
-﻿import {Button} from "@mui/material";
-import {getSession, signIn} from "next-auth/react";
+﻿import {getSession, signIn} from "next-auth/react";
 import {GetServerSideProps} from "next";
+import PrimaryButton from "../components/PrimaryButton";
 
 const Unauthorized = () => {
     return <div style={{
@@ -17,7 +17,7 @@ const Unauthorized = () => {
         <p>
             You are not authorized
         </p>
-        <Button variant="contained" onClick={() => signIn('rise')}>Sign in</Button>
+        <PrimaryButton onClick={() => signIn('rise')}>Sign in</PrimaryButton>
 </div>
 }
 

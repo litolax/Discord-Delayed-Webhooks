@@ -1,0 +1,21 @@
+﻿.header {
+    display: flex;
+    justify-content: space-between;
+    width: 60vw;
+    height: 10vh;
+    padding: 4% 0 0 0;
+    margin-bottom: 50px;
+}
+
+.headerSignOutButton {
+    width: 5.8854166667vw;
+    height: 3.4259259259vh;
+    min-width: 112.11px;
+    min-height: 36.5px;
+}
+
+.title {
+    font-family: 'Greycliff CF', sans-serif;
+    font-size: 25px;
+    color: rgb(199, 209, 219);
+}
