@@ -1,0 +1,26 @@
+stages:
+  - prepare
+
+default:
+  tags:
+    - zloserver
+
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
+cache:
+  paths:
+    - node_modules/
+
+prepare:
+  stage: prepare
+  image: docker:stable
+  services:
+    - docker:dind
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker build -t $CI_REGISTRY/risegta/discord-delayed-messages-manager/discord-delayed-messages-manager:latest -t $CI_REGISTRY/risegta/discord-delayed-messages-manager/discord-delayed-messages-manager:$CI_COMMIT_TAG .
+    - docker push $CI_REGISTRY/risegta/discord-delayed-messages-manager/discord-delayed-messages-manager:$CI_COMMIT_TAG
+    - docker push $CI_REGISTRY/risegta/discord-delayed-messages-manager/discord-delayed-messages-manager:latest
+  only:
+    - tags
