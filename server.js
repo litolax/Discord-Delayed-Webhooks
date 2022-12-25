@@ -1,9 +1,15 @@
-﻿import * as next from 'next';
-import * as express from 'express';
-import * as dotenv from 'dotenv'
-import {MongoClient} from "mongodb";
-import {parse} from "url"
-import axios from "axios";
+﻿// import * as next from 'next';
+// import * as express from 'express';
+// import * as dotenv from 'dotenv'
+// import {MongoClient} from "mongodb";
+// import {parse} from "url"
+// import axios from "axios";
+const next = require('next')
+const express = require('express')
+const dotenv = require('dotenv')
+const mongodb = require('mongodb')
+const url = require('url')
+const axios = require('axios')
 
 
 
@@ -27,7 +33,7 @@ if (!MONGODB_DB) {
 let cachedClient = null;
 let cachedDb = null;
 
-export async function databaseUse() {
+async function databaseUse() {
     // check the cached.
     if (cachedClient && cachedDb) {
         // load from cache
@@ -44,7 +50,7 @@ export async function databaseUse() {
     };
 
     // Connect to cluster
-    let client = new MongoClient(MONGODB_URI, opts);
+    let client = new mongodb.MongoClient(MONGODB_URI, opts);
     await client.connect();
     let db = client.db(MONGODB_DB);
 
@@ -65,7 +71,7 @@ const app = next.default({dev});
 const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
-    const server = express.default();
+    const server = express();
 
     // server.get('*', (req, res) => {
     //     const parsedUrl = parse(req.url, true);
@@ -74,7 +80,7 @@ app.prepare().then(() => {
     // })
     
     server.use(async (req, res, next) => {
-        const parsedUrl = parse(req.url, true);
+        const parsedUrl = url.parse(req.url, true);
 
         return handle(req, res, parsedUrl)
     })

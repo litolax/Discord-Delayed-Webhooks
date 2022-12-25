@@ -2,7 +2,6 @@
   "name": "discord-delayed-messages-manager",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "nodemon server.js",
     "build": "next build",

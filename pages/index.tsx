@@ -1,5 +1,8 @@
 import {GetServerSideProps} from "next";
 import {authRedirect} from "../src/server/authRedirect";
+import path from 'path';
+
+path.resolve('./next.config.js');
 
 export default function Home() {
     return <></>

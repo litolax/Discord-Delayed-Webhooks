@@ -12,7 +12,8 @@ const Unauthorized = () => {
         alignItems: 'center',
         fontFamily: 'Greycliff CF',
         fontSize: '3.5vh',
-        gap: '5%'
+        gap: '5%',
+        color: 'rgb(255, 255, 255)'
     }}>
         <p>
             You are not authorized
