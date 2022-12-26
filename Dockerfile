@@ -46,7 +46,7 @@ COPY --from=builder /app/package.json ./package.json
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-COPY --from=builder /app/.next/standalone ./custom-server/server.js 
+COPY --from=builder /app/.next/standalone/server.js ./custom-server/server.js 
 
 USER nextjs
 
