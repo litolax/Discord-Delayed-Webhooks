@@ -87,13 +87,6 @@ app.prepare().then(() => {
         }
     })
     
-    setInterval(async () => {
-        let { db } = await databaseUse();
-
-        const collection = await db.collection('test');
-        await collection.insertOne({_id: new bson.ObjectId(), text: 'hello'});
-    }, 1000)
-
     setInterval(async() => {
         let { db } = await databaseUse();
 
