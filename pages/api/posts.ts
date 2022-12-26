@@ -5,7 +5,7 @@ import IPost from "../../src/models/IPost";
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { db } = await connectToDatabase();
     const collection = await db
-        .collection('Posts');
+        .collection('posts');
     
     if (req.method !== 'POST') {
         const data = await collection.find().toArray();

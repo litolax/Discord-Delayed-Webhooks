@@ -44,7 +44,7 @@ export default function MainLayout(props: {data: IPost[]}) {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const { db } = await connectToDatabase();
     const collection = await db
-        .collection('Posts');
+        .collection('posts');
     
     const data = await collection.find().toArray() as IPost[];
     

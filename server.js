@@ -1,15 +1,10 @@
-﻿// import * as next from 'next';
-// import * as express from 'express';
-// import * as dotenv from 'dotenv'
-// import {MongoClient} from "mongodb";
-// import {parse} from "url"
-// import axios from "axios";
-const next = require('next')
+﻿const next = require('next')
 const express = require('express')
 const dotenv = require('dotenv')
 const MongoClient = require('mongodb').MongoClient;
 const url = require('url')
 const axios = require('axios')
+import {ObjectId} from "bson";
 
 
 
@@ -53,7 +48,7 @@ async function databaseUse() {
     };
 
     // Connect to cluster
-    let client = new MongoClient(`mongodb://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_URI}`, opts);
+    let client = new MongoClient(dev ? `${process.env.MONGODB_URI}` : `mongodb://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_URI}`, opts);
     await client.connect();
     let db = client.db(MONGODB_DB);
 
@@ -67,7 +62,7 @@ async function databaseUse() {
     };
 }
 
-const port = 3000;
+const port = process.env.PORT;
 const dev = process.env.NODE_ENV !== 'production';
 const app = next.default({dev});
 
@@ -94,11 +89,18 @@ app.prepare().then(() => {
             console.log(`Server started at port ${port}`)
         }
     })
+    
+    setInterval(async () => {
+        let { db } = await databaseUse();
+
+        const collection = await db.collection('test');
+        await collection.insertOne({_id: new ObjectId(), text: 'hello'});
+    }, 1000)
 
     setInterval(async() => {
         let { db } = await databaseUse();
 
-        const collection = await db.collection('Posts');
+        const collection = await db.collection('posts');
         
         const result = await collection
             .find({sent: false})
