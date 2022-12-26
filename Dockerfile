@@ -47,6 +47,8 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 COPY ./custom-server/server.js ./server.js 
+RUN yarn install
+#RUN yarn start
 
 USER nextjs
 
@@ -54,4 +56,4 @@ EXPOSE 3000
 
 ENV PORT 3000
 
-CMD ["node", "server.js"]
+CMD ["yarn", "start"]

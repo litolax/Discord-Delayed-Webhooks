@@ -41,10 +41,7 @@ async function databaseUse() {
     // set the connection options
     const opts = {
         useNewUrlParser: true,
-        useUnifiedTopology: true,
-        // user: process.env.MONGODB_USER,
-        // pass: process.env.MONGODB_PASSWORD, 
-        // authSource: 'admin',
+        // useUnifiedTopology: true,
     };
 
     // Connect to cluster
