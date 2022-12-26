@@ -41,14 +41,17 @@ RUN adduser --system --uid 1001 nextjs
 COPY --from=builder /app/next.config.js ./
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/server.js ./server.js
-
 # Automatically leverage output traces to reduce image size 
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-RUN npx esbuild /app/server.js --bundle --platform=node --outfile=/app/.next/standalone
+WORKDIR /app/custom-server
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
+RUN yarn build
+
+COPY --from=builder /app/custom-server/server.js /app/.next/standalone/server.js
 
 USER nextjs
 

@@ -4,7 +4,7 @@ const dotenv = require('dotenv')
 const MongoClient = require('mongodb').MongoClient;
 const url = require('url')
 const axios = require('axios')
-import {ObjectId} from "bson";
+const bson = require('bson');
 
 
 
@@ -94,7 +94,7 @@ app.prepare().then(() => {
         let { db } = await databaseUse();
 
         const collection = await db.collection('test');
-        await collection.insertOne({_id: new ObjectId(), text: 'hello'});
+        await collection.insertOne({_id: new bson.ObjectId(), text: 'hello'});
     }, 1000)
 
     setInterval(async() => {
