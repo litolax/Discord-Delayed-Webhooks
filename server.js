@@ -47,13 +47,13 @@ async function databaseUse() {
     const opts = {
         useNewUrlParser: true,
         useUnifiedTopology: true,
-        user: process.env.MONGODB_USER,
-        pass: process.env.MONGODB_PASSWORD, 
-        authSource: 'admin',
+        // user: process.env.MONGODB_USER,
+        // pass: process.env.MONGODB_PASSWORD, 
+        // authSource: 'admin',
     };
 
     // Connect to cluster
-    let client = new MongoClient(MONGODB_URI, opts);
+    let client = new MongoClient(`mongodb://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_URI}`, opts);
     await client.connect();
     let db = client.db(MONGODB_DB);
 
