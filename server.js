@@ -7,7 +7,7 @@
 const next = require('next')
 const express = require('express')
 const dotenv = require('dotenv')
-const mongodb = require('mongodb')
+const MongoClient = require('mongodb').MongoClient;
 const url = require('url')
 const axios = require('axios')
 
@@ -45,12 +45,15 @@ async function databaseUse() {
 
     // set the connection options
     const opts = {
-        // useNewUrlParser: true,
-        // useUnifiedTopology: true,
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        user: process.env.MONGODB_USER,
+        pass: process.env.MONGODB_PASSWORD, 
+        authSource: 'admin',
     };
 
     // Connect to cluster
-    let client = new mongodb.MongoClient(MONGODB_URI, opts);
+    let client = new MongoClient(MONGODB_URI, opts);
     await client.connect();
     let db = client.db(MONGODB_DB);
 
