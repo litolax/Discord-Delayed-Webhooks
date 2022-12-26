@@ -46,12 +46,7 @@ COPY --from=builder /app/package.json ./package.json
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-#WORKDIR /app/custom-server
-#COPY package.json yarn.lock ./
-#RUN yarn install --frozen-lockfile
-#RUN yarn build
-
-COPY --from=builder /app/custom-server/server.js /app/.next/standalone/server.js
+COPY --from=builder /app/.next/standalone ./custom-server/server.js 
 
 USER nextjs
 
