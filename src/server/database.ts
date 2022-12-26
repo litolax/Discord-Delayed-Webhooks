@@ -2,6 +2,7 @@
 
 const MONGODB_URI = process.env.MONGODB_URI ?? '';
 const MONGODB_DB = process.env.DB_NAME ?? '';
+const dev = process.env.NODE_ENV !== 'production';
 
 // check the MongoDB URI
 if (!MONGODB_URI) {
@@ -33,7 +34,7 @@ export async function connectToDatabase() {
     };
 
     // Connect to cluster
-    let client = new MongoClient(`mongodb://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_URI}`, opts);
+    let client = new MongoClient(dev ? `${process.env.MONGODB_URI}` : `mongodb://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_URI}`, opts);
     await client.connect();
     let db = client.db(MONGODB_DB);
 
