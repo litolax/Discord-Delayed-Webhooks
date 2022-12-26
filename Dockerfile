@@ -48,8 +48,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 COPY ./custom-server/server.js ./server.js
 
-RUN yarn install
-#RUN yarn start
+RUN yarn install --frozen-lockfile
 
 USER nextjs
 
