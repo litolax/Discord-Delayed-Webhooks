@@ -15,7 +15,7 @@ cache:
 
 lint:
   stage: lint
-  image: npm:latest
+  image: node:12.13.0-alpine
   script:
     - npm install
     - npm run lint
