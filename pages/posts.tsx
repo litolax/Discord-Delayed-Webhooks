@@ -1,22 +1,20 @@
 import Head from "next/head";
 import mainStyles from '../styles/Main.module.css'
-import styles from "../styles/CreatePost.module.css";
 import {GetServerSideProps} from "next";
 import {authRedirect} from "../src/server/authRedirect";
 import Header from "../components/Header";
-import PrimaryButton from "../components/PrimaryButton";
 import Footer from "../components/Footer";
-import Textarea from "../components/Textarea";
 import IPost from "../src/models/IPost";
-import {ObjectId} from "bson";
-import DatePicker from "../components/DatePicker";
-import { useState } from "react";
-import {useSession} from "next-auth/react";
-import Posts from "./api/posts";
 import Post from "../components/Post";
 import {connectToDatabase} from "../src/server/database";
 
 export default function MainLayout(props: {data: IPost[]}) {
+    props.data.sort((a, b) => {
+        const aDate = new Date(a.creationDate);
+        const bDate = new Date(b.creationDate);
+        return bDate.getTime() - aDate.getTime()
+    })
+    
     return (
         <>
             <Head>
