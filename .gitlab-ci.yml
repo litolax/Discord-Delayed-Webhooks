@@ -15,11 +15,9 @@ cache:
 
 lint:
   stage: lint
-  image: node:12.13.0-alpine
+  image: node:14.21.2-alpine
   script:
     - npm install
-    - npm update 
-    - npm cache clean --force
     - npm run lint
 
 build:
