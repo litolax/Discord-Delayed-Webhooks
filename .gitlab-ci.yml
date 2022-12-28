@@ -15,6 +15,7 @@ cache:
 
 lint:
   stage: lint
+  image: npm:latest
   script:
     - npm install
     - npm run lint
