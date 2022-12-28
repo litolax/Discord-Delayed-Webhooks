@@ -10,8 +10,8 @@
 .headerSignOutButton {
     width: 5.8854166667vw;
     height: 3.4259259259vh;
-    min-width: 112.11px;
-    min-height: 36.5px;
+    min-width: 112.11px !important;
+    min-height: 36.5px !important;
 }
 
 .title {

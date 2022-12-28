@@ -3,7 +3,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import {SyntheticEvent, useState} from "react";
+import {ReactNode, SyntheticEvent, useState} from "react";
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 // import SendIcon from '@mui/icons-material/Send';
@@ -15,7 +15,7 @@ import ToggleButton from '@mui/material/ToggleButton';
 
 export default function Post(props: IPost) {
     interface TabPanelProps {
-        children?: React.ReactNode;
+        children?: ReactNode;
         index: number;
         value: number;
     }
