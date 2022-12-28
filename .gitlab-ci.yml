@@ -19,6 +19,8 @@ lint:
   script:
     - npm install
     - npm run lint
+  only:
+    - tags
 
 build:
   stage: build
