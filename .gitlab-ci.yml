@@ -16,7 +16,7 @@ cache:
 lint:
   stage: lint
   script:
-    - call npm install
+    - npm install
     - npm run lint
 
 build:
