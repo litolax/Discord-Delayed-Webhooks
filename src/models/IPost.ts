@@ -5,7 +5,7 @@ export default interface IPost {
     _id: ObjectID,
     content: string,
     creationDate: Date,
-    publishDate: Date,
+    publishDate: Date | undefined,
     sent: boolean,
     sender: string
 }

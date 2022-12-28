@@ -12,8 +12,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(405).json(data);
     }
     
-    const postsData = JSON.parse(req.body) as IPost;
-    collection.insertOne(postsData)
+    const error = 'Post has create successfully';
     
-    res.json({ message: postsData })
+    const postData = JSON.parse(req.body) as IPost;
+    
+    if (postData.content.length < 1) return res.json({ error: 'Content can\'t be empty' });
+    if (!postData.publishDate) return res.json({ error: 'Publication date can\'t be empty' });
+
+    const posts = await collection.find({ content: postData.content, publishDate: postData.publishDate, sent: false }).toArray();
+    if (posts.length > 0) return res.json({ error: 'You\'re already have post with these arguments' });
+    
+    collection.insertOne(postData)
+    
+    res.json({ error: error })
 }

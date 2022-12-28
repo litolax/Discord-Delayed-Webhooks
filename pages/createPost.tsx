@@ -11,12 +11,14 @@ import {ObjectId} from "bson";
 import DatePicker from "../components/DatePicker";
 import {useState} from "react";
 import {useSession} from "next-auth/react";
+import {AlertColor} from "@mui/material/Alert";
 
 export default function MainLayout() {
     const [contentArea, setContentArea] = useState('');
-    const [pickerDate, setPickerDate] = useState(new Date());
+    const [pickerDate, setPickerDate] = useState(undefined);
+    const [alertContent, setAlertContent] = useState({error: undefined, type: "success"});
     const session = useSession();
-
+    
     async function savePost(content: string) {
         const date = new Date(Date.now())
 
@@ -36,7 +38,9 @@ export default function MainLayout() {
         if (!response.ok)
             throw new Error(response.statusText)
 
-        return await response.json();
+        const responseJson = await response.json();
+        setAlertContent({ error: responseJson.error, type: responseJson.error != 'Post has create successfully' ? 'error' : 'success'});
+        return responseJson;
     }
 
     return (
@@ -66,7 +70,8 @@ export default function MainLayout() {
                         <DatePicker onAccept={setPickerDate}/>
                     </div>
 
-                    <PrimaryButton onClick={() => savePost(contentArea)} style={{marginBottom: '35px'}}>Add post</PrimaryButton>
+                    
+                    <PrimaryButton onClick={() => savePost(contentArea)} style={{marginBottom: '35px'}} alert={ {content: alertContent.error ?? '', type: alertContent.type as AlertColor} }>Add post</PrimaryButton>
 
                     <Footer/>
                 </div>
