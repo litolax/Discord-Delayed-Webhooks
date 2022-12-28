@@ -1,5 +1,6 @@
 stages:
-  - prepare
+  - lint
+  - build
 
 default:
   tags:
@@ -12,8 +13,14 @@ cache:
   paths:
     - node_modules/
 
-prepare:
-  stage: prepare
+lint:
+  stage: lint
+  script:
+    - call npm install
+    - npm run lint
+
+build:
+  stage: build
   image: docker:stable
   services:
     - docker:dind
