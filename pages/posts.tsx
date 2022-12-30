@@ -7,14 +7,31 @@ import Footer from "../components/Footer";
 import IPost from "../src/models/IPost";
 import Post from "../components/Post";
 import {connectToDatabase} from "../src/server/database";
+import {ObjectID} from "bson";
+import {useEffect, useState} from "react";
 
-export default function MainLayout(props: {data: IPost[]}) {
+export default function MainLayout(props: { data: IPost[] }) {
+    const [posts, setPosts] = useState(props.data);
+    console.log(posts)
+    useEffect(() => {
+        setPosts(props.data)
+    }, [props.data])
+
+    const deletePost = async (postId: ObjectID) => {
+        const response = await fetch(`/api/deletePost/${postId}`);
+
+        if (!response.ok)
+            throw new Error(response.statusText);
+        
+        setPosts((prevState) => prevState.filter(v => v._id !== postId))
+    }
+
     props.data.sort((a, b) => {
         const aDate = new Date(a.creationDate);
         const bDate = new Date(b.creationDate);
         return bDate.getTime() - aDate.getTime()
     })
-    
+
     return (
         <>
             <Head>
@@ -27,11 +44,11 @@ export default function MainLayout(props: {data: IPost[]}) {
                 <div className={mainStyles.container}>
                     <Header/>
                     <div style={{marginBottom: '35px', display: 'flex', flexDirection: 'column'}}>
-                        {props.data.map((e) => (
-                            <Post {...e} key={e._id.toString()}/>
-                        ))}
+                        {posts.length > 0 ? posts.map((e) => (
+                            <Post post={e} key={e._id.toString()} onDelete={deletePost}/>
+                        )) : <p className={mainStyles.text}>We have not any posts yet</p>}
                     </div>
-                    
+
                     <Footer/>
                 </div>
             </main>
@@ -40,14 +57,14 @@ export default function MainLayout(props: {data: IPost[]}) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-    const { db } = await connectToDatabase();
+    const {db} = await connectToDatabase();
     const collection = await db
         .collection('posts');
-    
+
     const data = await collection.find().toArray() as IPost[];
-    
+
     return {
         redirect: await authRedirect(ctx),
-        props: { data }
+        props: {data}
     };
 }

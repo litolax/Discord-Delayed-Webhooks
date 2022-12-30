@@ -13,7 +13,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import ToggleButton from '@mui/material/ToggleButton';
 
 
-export default function Post(props: IPost) {
+export default function Post(props: {post: IPost, onDelete?: Function}) {
     interface TabPanelProps {
         children?: ReactNode;
         index: number;
@@ -53,8 +53,8 @@ export default function Post(props: IPost) {
         setValue(newValue);
     };
 
-    const creationDate = new Date(props.creationDate!).toLocaleString().toString();
-    const publishDate = new Date(props.publishDate!).toLocaleString().toString();
+    const creationDate = new Date(props.post.creationDate!).toLocaleString().toString();
+    const publishDate = new Date(props.post.publishDate!).toLocaleString().toString();
 
     return (
         <>
@@ -73,10 +73,10 @@ export default function Post(props: IPost) {
                     </Tabs>
                 </Box>
                 <TabPanel value={value} index={0}>
-                    {props.content}
+                    {props.post.content}
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                    {props.sender}
+                    {props.post.sender}
                 </TabPanel>
                 <TabPanel value={value} index={2}>
                     {creationDate}
@@ -89,7 +89,7 @@ export default function Post(props: IPost) {
                     <ToggleButton
                         value="check"
                         selected={true}
-                        color={props.sent ? 'success' : 'error'}
+                        color={props.post.sent ? 'success' : 'error'}
                         // onChange={() => {
                         //     setSelected(!selected);
                         // }}
@@ -99,7 +99,7 @@ export default function Post(props: IPost) {
                     {/*<Button variant="outlined" endIcon={<EditIcon />}>*/}
                     {/*    Edit*/}
                     {/*</Button>*/}
-                    <Button variant="outlined" startIcon={<DeleteIcon />}>
+                    <Button variant="outlined" startIcon={<DeleteIcon />} onClick={() => props.onDelete && props.onDelete(props.post)}>
                         Delete
                     </Button>
                 </Stack>

@@ -17,6 +17,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const postData = JSON.parse(req.body) as IPost;
     
     if (postData.content.length < 1) return res.json({ error: 'Content can\'t be empty' });
+    if (postData.content.length > 2000) return res.json({ error: 'Content\'s length can\'t be more than 2000 characters' });
     if (!postData.publishDate) return res.json({ error: 'Publication date can\'t be empty' });
 
     const posts = await collection.find({ content: postData.content, publishDate: postData.publishDate, sent: false }).toArray();
