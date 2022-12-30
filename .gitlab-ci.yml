@@ -1,5 +1,4 @@
 stages:
-  - lint
   - build
 
 default:
@@ -14,14 +13,15 @@ cache:
     - node_modules/
 
 lint:
-  stage: lint
+  stage: build
   image: node:14.21.2-alpine
   script:
     - npm install
     - npm run lint
   rules:
     - if: $CI_PIPELINE_SOURCE == "push"
-  parallel: 2
+  only:
+    - tags
 
 build:
   stage: build
@@ -35,4 +35,3 @@ build:
     - docker push $CI_REGISTRY/risegta/discord-delayed-messages-manager/discord-delayed-messages-manager:latest
   only:
     - tags
-  parallel: 2
