@@ -19,8 +19,8 @@ lint:
   script:
     - npm install
     - npm run lint
-  only:
-    - tags
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push"
 
 build:
   stage: build
