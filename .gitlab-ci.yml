@@ -21,6 +21,7 @@ lint:
     - npm run lint
   rules:
     - if: $CI_PIPELINE_SOURCE == "push"
+  parallel: 2
 
 build:
   stage: build
@@ -34,3 +35,4 @@ build:
     - docker push $CI_REGISTRY/risegta/discord-delayed-messages-manager/discord-delayed-messages-manager:latest
   only:
     - tags
+  parallel: 2
