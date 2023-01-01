@@ -6,10 +6,7 @@ const url = require('url')
 const axios = require('axios')
 const bson = require('bson');
 
-
-
 dotenv.config({ path: './.env.local' })
-
 
 ///////
 const MONGODB_URI = process.env.MONGODB_URI ?? '';
@@ -93,18 +90,18 @@ app.prepare().then(() => {
         const collection = await db.collection('posts');
         
         const result = await collection
-            .find({sent: false})
+            .find({ sent: false })
             .toArray()
 
         for (const element of result) {
             if (new Date() > new Date(element.publishDate) && !element.sent) {
-                sendWebhook(element.content)
+                sendWebhook(element)
                 await collection.updateOne({_id: element._id}, { $set: { sent: true}})
         }}
     }, 15000)
 })
 
-function sendWebhook(content) {
+function sendWebhook(element) {
     // let embeds = [
     //     {
     //         title: "Discord Webhook Example",
@@ -122,9 +119,9 @@ function sendWebhook(content) {
     // ];
 
     // let data = JSON.stringify( {embeds} );
-    let data = JSON.stringify({'content': content})
+    let data = JSON.stringify({ 'content': element.content })
 
-    const url = process.env.WEBHOOK_URL;
+    const url = element.webhook;
     const config = {
         method: "POST",
         url: url,

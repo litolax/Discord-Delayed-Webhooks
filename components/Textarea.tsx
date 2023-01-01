@@ -1,15 +1,15 @@
 ﻿import TextField from '@mui/material/TextField';
 
-export default function Textarea(props: { children: string, value: string, onChange: Function, style?: any }) {
+export default function Textarea(props: { children: string, value: string, onChange: Function, style?: any, minRows?: number, maxRows?: number, label: string }) {
     return (
         <>
             <br/>
             <TextField
                 id="outlined-multiline-static"
-                label="Content"
+                label={props.label}
                 multiline
-                minRows={4}
-                maxRows={17}
+                minRows={props.minRows ?? 4}
+                maxRows={props.maxRows ?? 17}
                 defaultValue=""
                 onChange={(e) => props.onChange(e.target.value)}
             />

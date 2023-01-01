@@ -15,10 +15,11 @@ import {AlertColor} from "@mui/material/Alert";
 
 export default function MainLayout() {
     const [contentArea, setContentArea] = useState('');
+    const [webhookArea, setWebhookArea] = useState('');
     const [pickerDate, setPickerDate] = useState(undefined);
     const [alertContent, setAlertContent] = useState({error: undefined, type: "success"});
     const session = useSession();
-    
+
     async function savePost(content: string) {
         const date = new Date(Date.now())
 
@@ -28,7 +29,8 @@ export default function MainLayout() {
             creationDate: date,
             publishDate: pickerDate,
             sent: false,
-            sender: session.data?.user?.name ? session.data.user.name : 'unknown'
+            sender: session.data?.user?.name ? session.data.user.name : 'unknown',
+            webhook: webhookArea
         }
         const response = await fetch('/api/posts', {
             method: 'POST',
@@ -39,7 +41,10 @@ export default function MainLayout() {
             throw new Error(response.statusText)
 
         const responseJson = await response.json();
-        setAlertContent({ error: responseJson.error, type: responseJson.error != 'Post has create successfully' ? 'error' : 'success'});
+        setAlertContent({
+            error: responseJson.error,
+            type: responseJson.error != 'Post has create successfully' ? 'error' : 'success'
+        });
         return responseJson;
     }
 
@@ -56,22 +61,44 @@ export default function MainLayout() {
                     <Header/>
 
                     <div style={{
-                        marginBottom: '35px',
-                        display: 'flex', 
-                        flexDirection: 'column'
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '10px'
                     }}>
-                        <Textarea 
-                            value={contentArea} 
+                        <Textarea
+                            label={'Content'}
+                            value={contentArea}
                             onChange={setContentArea}
                             style={{
-                                height: '300px',
-                                marginBottom: '35px' }}>
+                                height: '300px'
+                            }}>
                             Input message text here</Textarea>
-                        <DatePicker onAccept={setPickerDate}/>
+
+                        <DatePicker onAccept={setPickerDate}></DatePicker>
+
+                        <Textarea
+                            label={'Webhook'}
+                            value={webhookArea}
+                            onChange={setWebhookArea}
+                            style={{
+                                height: '300px'
+                            }}
+                            minRows={1}>
+                            Input message text here</Textarea>
                     </div>
 
-                    
-                    <PrimaryButton onClick={() => savePost(contentArea)} style={{marginBottom: '35px'}} alert={ {content: alertContent.error ?? '', type: alertContent.type as AlertColor} }>Add post</PrimaryButton>
+                    <PrimaryButton
+                        onClick={() => savePost(contentArea)}
+                        style={{
+                            marginBottom: '25px',
+                            width: '150px'
+                        }}
+                        alert={{
+                            content: alertContent.error ?? '',
+                            type: alertContent.type as AlertColor
+                        }}>
+                        Add post
+                    </PrimaryButton>
 
                     <Footer/>
                 </div>

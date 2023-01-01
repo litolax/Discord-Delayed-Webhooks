@@ -29,6 +29,7 @@ export default function DatePicker(props: { onAccept: Function }) {
                     RightArrowIcon: SnoozeIcon,
                     OpenPickerIcon: ClockIcon,
                 }}
+                disablePast={true}
                 renderInput={(params) => (
                     <TextField {...params}/>
                 )}

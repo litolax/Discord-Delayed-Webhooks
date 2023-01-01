@@ -19,8 +19,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (postData.content.length < 1) return res.json({ error: 'Content can\'t be empty' });
     if (postData.content.length > 2000) return res.json({ error: 'Content\'s length can\'t be more than 2000 characters' });
     if (!postData.publishDate) return res.json({ error: 'Publication date can\'t be empty' });
+    if (postData.webhook.length < 1) return res.json({ error: 'Webhook can\'t be empty' });
 
-    const posts = await collection.find({ content: postData.content, publishDate: postData.publishDate, sent: false }).toArray();
+    const posts = await collection.find({ content: postData.content, publishDate: postData.publishDate, webhook: postData.webhook, sent: false }).toArray();
     if (posts.length > 0) return res.json({ error: 'You\'re already have post with these arguments' });
     
     collection.insertOne(postData)

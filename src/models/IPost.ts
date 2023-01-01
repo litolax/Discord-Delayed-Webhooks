@@ -7,5 +7,6 @@ export default interface IPost {
     creationDate: Date,
     publishDate: Date | undefined,
     sent: boolean,
-    sender: string
+    sender: string,
+    webhook: string
 }
