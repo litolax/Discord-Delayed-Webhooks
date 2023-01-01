@@ -1,60 +1,24 @@
 ﻿import IPost from "../src/models/IPost";
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import {ReactNode, SyntheticEvent, useState} from "react";
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 // import SendIcon from '@mui/icons-material/Send';
-import EditIcon from '@mui/icons-material/Edit';
 import Stack from '@mui/material/Stack';
 import CheckIcon from '@mui/icons-material/Check';
 import ToggleButton from '@mui/material/ToggleButton';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import AlertDialog from "./AlertDialog";
+import {useState} from "react";
 
 
-export default function Post(props: {post: IPost, onDelete?: Function}) {
-    interface TabPanelProps {
-        children?: ReactNode;
-        index: number;
-        value: number;
-    }
-
-    function TabPanel(props: TabPanelProps) {
-        const {children, value, index, ...other} = props;
-
-        return (
-            <div
-                role="tabpanel"
-                hidden={value !== index}
-                id={`simple-tabpanel-${index}`}
-                aria-labelledby={`simple-tab-${index}`}
-                {...other}
-            >
-                {value === index && (
-                    <Box sx={{p: 3}}>
-                        <Typography>{children}</Typography>
-                    </Box>
-                )}
-            </div>
-        );
-    }
-
-    function a11yProps(index: number) {
-        return {
-            id: `simple-tab-${index}`,
-            'aria-controls': `simple-tabpanel-${index}`,
-        };
-    }
-
-    const [value, setValue] = useState(0);
-
-    const handleChange = (event: SyntheticEvent, newValue: number) => {
-        setValue(newValue);
-    };
-
+export default function Post(props: { post: IPost, onDelete?: Function }) {
     const creationDate = new Date(props.post.creationDate!).toLocaleString().toString();
     const publishDate = new Date(props.post.publishDate!).toLocaleString().toString();
+
+    const [deleteAlertState, setDeleteAlertState] = useState(false);
 
     return (
         <>
@@ -64,45 +28,50 @@ export default function Post(props: {post: IPost, onDelete?: Function}) {
                 fontSize: '15px',
                 color: 'rgb(199, 209, 219)',
             }}>
-                <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
-                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                        <Tab label="Content" {...a11yProps(0)} />
-                        <Tab label="Sender" {...a11yProps(1)} />
-                        <Tab label="Creation date" {...a11yProps(2)} />
-                        <Tab label="Publish date" {...a11yProps(3)} />
-                    </Tabs>
-                </Box>
-                <TabPanel value={value} index={0}>
-                    {props.post.content}
-                </TabPanel>
-                <TabPanel value={value} index={1}>
-                    {props.post.sender}
-                </TabPanel>
-                <TabPanel value={value} index={2}>
-                    {creationDate}
-                </TabPanel>
-                <TabPanel value={value} index={3}>
-                    {publishDate}
-                </TabPanel>
-
-                <Stack direction="row" spacing={3}>
-                    <ToggleButton
-                        value="check"
-                        selected={true}
-                        color={props.post.sent ? 'success' : 'error'}
-                        // onChange={() => {
-                        //     setSelected(!selected);
-                        // }}
+                <Accordion TransitionProps={{unmountOnExit: true}} style={{
+                    background: 'rgb(19, 48, 79)'
+                }}>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon/>}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
                     >
-                        <CheckIcon />
-                    </ToggleButton>
-                    {/*<Button variant="outlined" endIcon={<EditIcon />}>*/}
-                    {/*    Edit*/}
-                    {/*</Button>*/}
-                    <Button variant="outlined" startIcon={<DeleteIcon />} onClick={() => props.onDelete && props.onDelete(props.post)}>
-                        Delete
-                    </Button>
-                </Stack>
+                        <Typography>{props.post.content.slice(0, 50)}...</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <Typography noWrap={false} style={{whiteSpace: 'pre-line'}}>
+                            {
+                                `Content: ${props.post.content}\n
+                                Sender: ${props.post.sender}\n
+                                CreationDate: ${creationDate}\n
+                                PublishDate: ${publishDate}`
+                            }
+                        </Typography>
+                        <Stack direction="row" spacing={3} sx={{marginTop: '25px', marginBottom: '15px'}}>
+                            <ToggleButton
+                                value="check"
+                                selected={true}
+                                color={props.post.sent ? 'success' : 'error'}
+                            >
+                                <CheckIcon/>
+                            </ToggleButton>
+                            {/*<Button variant="outlined" endIcon={<EditIcon />}>*/}
+                            {/*    Edit*/}
+                            {/*</Button>*/}
+                            <Button variant="outlined" startIcon={<DeleteIcon/>}
+                                    onClick={() => setDeleteAlertState(true)}>
+                                Delete
+                            </Button>
+                            <AlertDialog
+                                content={{
+                                    title: 'Are you sure?',
+                                    desc: 'You try to delete post, you cannot undo this action'
+                                }}
+                                stateInfo={{state: deleteAlertState, stateFunc: setDeleteAlertState}}
+                                agree={() => props.onDelete && props.onDelete(props.post._id)}/>
+                        </Stack>
+                    </AccordionDetails>
+                </Accordion>
             </div>
         </>
     )

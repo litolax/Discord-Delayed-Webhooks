@@ -12,7 +12,7 @@ import {useEffect, useState} from "react";
 
 export default function MainLayout(props: { data: IPost[] }) {
     const [posts, setPosts] = useState(props.data);
-    console.log(posts)
+
     useEffect(() => {
         setPosts(props.data)
     }, [props.data])
@@ -43,7 +43,7 @@ export default function MainLayout(props: { data: IPost[] }) {
             <main className={mainStyles.App}>
                 <div className={mainStyles.container}>
                     <Header/>
-                    <div style={{marginBottom: '35px', display: 'flex', flexDirection: 'column'}}>
+                    <div style={{display: 'flex', flexDirection: 'column'}}>
                         {posts.length > 0 ? posts.map((e) => (
                             <Post post={e} key={e._id.toString()} onDelete={deletePost}/>
                         )) : <p className={mainStyles.text}>We have not any posts yet</p>}
