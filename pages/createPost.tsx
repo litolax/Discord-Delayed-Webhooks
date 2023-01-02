@@ -12,12 +12,22 @@ import DatePicker from "../components/DatePicker";
 import {useState} from "react";
 import {useSession} from "next-auth/react";
 import {AlertColor} from "@mui/material/Alert";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Typography from "@mui/material/Typography";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Accordion from "@mui/material/Accordion";
+import {useTranslation} from "next-i18next";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 
 export default function MainLayout() {
+    const { t } = useTranslation('posts')
+    
     const [contentArea, setContentArea] = useState('');
     const [webhookArea, setWebhookArea] = useState('');
+    const [previewWebhookArea, setPreviewWebhookArea] = useState('');
     const [pickerDate, setPickerDate] = useState(undefined);
-    const [alertContent, setAlertContent] = useState({error: undefined, type: "success"});
+    const [alertContent, setAlertContent] = useState({error: 'error', type: "success"});
     const session = useSession();
 
     async function savePost(content: string) {
@@ -42,8 +52,8 @@ export default function MainLayout() {
 
         const responseJson = await response.json();
         setAlertContent({
-            error: responseJson.error,
-            type: responseJson.error != 'Post has create successfully' ? 'error' : 'success'
+            error: t(`${responseJson.error}`),
+            type: t(`${responseJson.error}`) != `${t('created')}` ? 'error' : 'success'
         });
         return responseJson;
     }
@@ -51,7 +61,7 @@ export default function MainLayout() {
     return (
         <>
             <Head>
-                <title>Discord delayed messages manager</title>
+                <title>{t('common:title')}</title>
                 <meta name="description" content="Create post page"/>
                 <meta name="viewport" content="width=device-width, initial-scale=1"/>
                 <link rel="icon" href="/favicon.ico"/>
@@ -66,7 +76,7 @@ export default function MainLayout() {
                         gap: '10px'
                     }}>
                         <Textarea
-                            label={'Content'}
+                            label={`${t('content')}`}
                             value={contentArea}
                             onChange={setContentArea}
                             style={{
@@ -77,7 +87,7 @@ export default function MainLayout() {
                         <DatePicker onAccept={setPickerDate}></DatePicker>
 
                         <Textarea
-                            label={'Webhook'}
+                            label={`${t('webhook')}`}
                             value={webhookArea}
                             onChange={setWebhookArea}
                             style={{
@@ -87,17 +97,61 @@ export default function MainLayout() {
                             Input message text here</Textarea>
                     </div>
 
+                    <Accordion
+                        style={{
+                            background: 'rgb(19, 48, 79)',
+                            marginBottom: '45px'
+                        }}>
+                        <AccordionSummary
+                            expandIcon={<ExpandMoreIcon/>}
+                            aria-controls="panel1a-content"
+                            id="panel1a-header"
+                        >
+                            <Typography>{t('preview.title')}</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <Typography noWrap={false}>
+                                {t('preview.description')}
+                            </Typography>
+
+                            <Textarea
+                                label={`${t('preview.webhook')}`}
+                                value={previewWebhookArea}
+                                onChange={setPreviewWebhookArea}
+                                minRows={1}
+                                style={{
+                                    width: '1000px',
+                                }}>
+                                Input message text here
+                            </Textarea>
+
+
+                            <PrimaryButton
+                                onClick={() => {
+                                }}
+                                style={{
+                                    width: '300px',
+                                    marginTop: '15px',
+                                    marginBottom: '15px'
+                                }}>
+                                {t('preview.send')!}
+                            </PrimaryButton>
+
+                        </AccordionDetails>
+                    </Accordion>
+
+
                     <PrimaryButton
                         onClick={() => savePost(contentArea)}
                         style={{
                             marginBottom: '25px',
-                            width: '150px'
+                            width: '200px'
                         }}
                         alert={{
                             content: alertContent.error ?? '',
                             type: alertContent.type as AlertColor
                         }}>
-                        Add post
+                        {t('add')!}
                     </PrimaryButton>
 
                     <Footer/>
@@ -110,6 +164,8 @@ export default function MainLayout() {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     return {
         redirect: await authRedirect(ctx),
-        props: {}
+        props: {
+            ...(await serverSideTranslations(ctx.locale || 'ru', ['common', 'posts'])),
+        }
     };
 }

@@ -1,6 +1,7 @@
 ﻿import MainLayout from "../components/MainLayout";
 import {GetServerSideProps} from "next";
 import {authRedirect} from "../src/server/authRedirect";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 
 export default function Main() {
     return (
@@ -11,6 +12,8 @@ export default function Main() {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     return {
         redirect: await authRedirect(ctx),
-        props: {}
+        props: {
+            ...(await serverSideTranslations(ctx.locale || 'ru', ['common'])),
+        }
     };
 }

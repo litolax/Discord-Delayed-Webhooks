@@ -12,9 +12,11 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AlertDialog from "./AlertDialog";
 import {useState} from "react";
+import {useTranslation} from "next-i18next";
 
 
 export default function Post(props: { post: IPost, onDelete?: Function }) {
+    const { t } = useTranslation('posts')
     const creationDate = new Date(props.post.creationDate!).toLocaleString().toString();
     const publishDate = new Date(props.post.publishDate!).toLocaleString().toString();
 
@@ -41,10 +43,10 @@ export default function Post(props: { post: IPost, onDelete?: Function }) {
                     <AccordionDetails>
                         <Typography noWrap={false} style={{whiteSpace: 'pre-line'}}>
                             {
-                                `Content: ${props.post.content}\n
-                                Sender: ${props.post.sender}\n
-                                CreationDate: ${creationDate}\n
-                                PublishDate: ${publishDate}`
+                                `${t('content')}:\n${props.post.content}\n
+                                ${t('sender')}: ${props.post.sender}\n
+                                ${t('creationDate')}: ${creationDate}\n
+                                ${t('publishDate')}: ${publishDate}`
                             }
                         </Typography>
                         <Stack direction="row" spacing={3} sx={{marginTop: '25px', marginBottom: '15px'}}>
@@ -60,12 +62,12 @@ export default function Post(props: { post: IPost, onDelete?: Function }) {
                             {/*</Button>*/}
                             <Button variant="outlined" startIcon={<DeleteIcon/>}
                                     onClick={() => setDeleteAlertState(true)}>
-                                Delete
+                                {t('common:delete')}
                             </Button>
                             <AlertDialog
                                 content={{
-                                    title: 'Are you sure?',
-                                    desc: 'You try to delete post, you cannot undo this action'
+                                    title: `${t('common:areYouSure')}`,
+                                    desc: `${t('tryToDeletePost')}`
                                 }}
                                 stateInfo={{state: deleteAlertState, stateFunc: setDeleteAlertState}}
                                 agree={() => props.onDelete && props.onDelete(props.post._id)}/>

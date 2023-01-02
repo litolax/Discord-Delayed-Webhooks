@@ -1,8 +1,12 @@
 ﻿import {getSession, signIn} from "next-auth/react";
 import {GetServerSideProps} from "next";
 import PrimaryButton from "../components/PrimaryButton";
+import {useTranslation} from "next-i18next";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 
 const Unauthorized = () => {
+    const { t } = useTranslation('common')
+    
     return <div style={{
         width: '100%',
         height: '100vh',
@@ -16,9 +20,9 @@ const Unauthorized = () => {
         color: 'rgb(255, 255, 255)'
     }}>
         <p>
-            You are not authorized
+            {t('notAuthorized')}
         </p>
-        <PrimaryButton onClick={() => signIn('rise')}>Sign in</PrimaryButton>
+        <PrimaryButton onClick={() => signIn('rise')}>{t('signIn')!}</PrimaryButton>
 </div>
 }
 
@@ -34,7 +38,9 @@ async function redirectMainPage(ctx: any) {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     return {
         redirect: await redirectMainPage(ctx),
-        props: {}
+        props: {
+            ...(await serverSideTranslations(ctx.locale || 'ru', ['common', 'posts'])),
+        }
     };
 }
 

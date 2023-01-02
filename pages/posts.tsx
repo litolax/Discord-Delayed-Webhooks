@@ -9,8 +9,11 @@ import Post from "../components/Post";
 import {connectToDatabase} from "../src/server/database";
 import {ObjectID} from "bson";
 import {useEffect, useState} from "react";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import {useTranslation} from "next-i18next";
 
 export default function MainLayout(props: { data: IPost[] }) {
+    const { t } = useTranslation('posts')
     const [posts, setPosts] = useState(props.data);
 
     useEffect(() => {
@@ -46,7 +49,7 @@ export default function MainLayout(props: { data: IPost[] }) {
                     <div style={{display: 'flex', flexDirection: 'column'}}>
                         {posts.length > 0 ? posts.map((e) => (
                             <Post post={e} key={e._id.toString()} onDelete={deletePost}/>
-                        )) : <p className={mainStyles.text}>We have not any posts yet</p>}
+                        )) : <p className={mainStyles.text} style={{marginBottom: '25px'}}>{t('nothing')}</p>}
                     </div>
 
                     <Footer/>
@@ -65,6 +68,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
     return {
         redirect: await authRedirect(ctx),
-        props: {data}
+        props: {
+            data,
+            ...(await serverSideTranslations(ctx.locale || 'ru', ['common', 'posts'])),
+        }
     };
 }
