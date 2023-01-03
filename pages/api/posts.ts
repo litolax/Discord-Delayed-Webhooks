@@ -16,8 +16,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     
     const postData = JSON.parse(req.body) as IPost;
     
-    if (postData.content.length < 1) return res.json({ error: 'error.empty.content' });
-    if (postData.content.length > 2000) return res.json({ error: 'error.hugeLength' });
+    if (postData.content.length < 1 && postData.embeds.length < 1) return res.json({ error: 'error.empty.content' });
+    if (postData.content.length > 2000 && postData.embeds.length < 1) return res.json({ error: 'error.hugeLength' });
     if (!postData.publishDate) return res.json({ error: 'error.empty.date' });
     if (postData.webhook.length < 1) return res.json({ error: 'error.empty.webhook' });
 

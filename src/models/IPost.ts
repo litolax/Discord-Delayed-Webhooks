@@ -1,4 +1,5 @@
 ﻿import {ObjectID} from "bson";
+import IEmbed from "./IEmbed";
 
 
 export default interface IPost {
@@ -8,5 +9,8 @@ export default interface IPost {
     publishDate: Date | undefined,
     sent: boolean,
     sender: string,
-    webhook: string
+    webhook: string,
+    username: string,
+    avatarUrl: string | undefined,
+    embeds: IEmbed[]
 }

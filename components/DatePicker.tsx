@@ -14,7 +14,9 @@ export default function DatePicker(props: { onAccept: Function }) {
     const [dateWithNoInitialValue, setDateWithNoInitialValue] = useState<Dayjs | null>(null);
 
     return (
-        <>
+        <div style={{
+            marginBottom: '25px',
+        }}>
             <LocalizationProvider 
                 dateAdapter={AdapterDayjs}>
             <DateTimePicker
@@ -36,6 +38,8 @@ export default function DatePicker(props: { onAccept: Function }) {
                 onAccept={(e) => props.onAccept(e)}
             />
             </LocalizationProvider>
-        </>
+            {/*<br/>*/}
+            {/*<br/>*/}
+        </div>
     )
 }

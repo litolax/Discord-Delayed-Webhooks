@@ -98,34 +98,21 @@ app.prepare().then(() => {
                 sendWebhook(element)
                 await collection.updateOne({_id: element._id}, { $set: { sent: true}})
         }}
-    }, 15000)
+    }, 10000)
 })
 
 function sendWebhook(element) {
-    // let embeds = [
-    //     {
-    //         title: "Discord Webhook Example",
-    //         color: 5174599,
-    //         footer: {
-    //             text: props.text,
-    //         },
-    //         fields: [
-    //             {
-    //                 name: "Field Name",
-    //                 value: "Field Value"
-    //             },
-    //         ],
-    //     },
-    // ];
+    let data = JSON.stringify({
+        'content': element.content,
+        'username': `${element.username}`,
+        'avatar_url': `${element.avatarUrl}`,
+        'embeds': element.embeds
+    })
 
-    // let data = JSON.stringify( {embeds} );
-    let data = JSON.stringify({ 'content': element.content })
-
-    const url = element.webhook;
     const config = {
         method: "POST",
-        url: url,
-        headers: { "Content-Type": "application/json" },
+        url: element.webhook,
+        headers: {"Content-Type": "application/json"},
         data: data,
     };
 

@@ -3,7 +3,6 @@
 export default function Textarea(props: { children: string, value: string, onChange: Function, style?: any, minRows?: number, maxRows?: number, label: string }) {
     return (
         <>
-            <br/>
             <TextField
                 id="outlined-multiline-static"
                 label={props.label}
@@ -12,8 +11,11 @@ export default function Textarea(props: { children: string, value: string, onCha
                 maxRows={props.maxRows ?? 17}
                 defaultValue=""
                 onChange={(e) => props.onChange(e.target.value)}
+                style={{
+                    marginBottom: '25px',
+                    ...props.style
+                }}
             />
-            <br/><br/>
         </>
     )
 }
