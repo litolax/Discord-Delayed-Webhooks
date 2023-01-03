@@ -41,12 +41,16 @@ export default function Post(props: { post: IPost, onDelete?: Function }) {
                         <Typography>{props.post.content.slice(0, 50)}...</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                        <Typography noWrap={false} style={{whiteSpace: 'pre-line'}}>
+                        <Typography noWrap={false} style={{whiteSpace: 'pre-line', width: '100%'}}>
                             {
-                                `${t('content')}:\n${props.post.content}\n
+                                `${t('content')}:\n${!props.post.content ? '-' : props.post.content}\n
                                 ${t('sender')}: ${props.post.sender}\n
                                 ${t('creationDate')}: ${creationDate}\n
-                                ${t('publishDate')}: ${publishDate}`
+                                ${t('publishDate')}: ${publishDate}\n
+                                ${t('webhook')}: ${props.post.webhook}\n
+                                ${t('username')}: ${props.post.username}\n
+                                ${t('avatarUrl')}: ${!props.post.avatarUrl ? '-' : props.post.avatarUrl}\n
+                                ${t('embed.builderName')}: ${props.post.embeds ? `${t('embed.exists.yes')}` : `${t('embed.exists.no')}`}`
                             }
                         </Typography>
                         <Stack direction="row" spacing={3} sx={{marginTop: '25px', marginBottom: '15px'}}>
