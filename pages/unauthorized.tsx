@@ -5,8 +5,8 @@ import {useTranslation} from "next-i18next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 
 const Unauthorized = () => {
-    const { t } = useTranslation('common')
-    
+    const {t} = useTranslation('common')
+
     return <div style={{
         width: '100%',
         height: '100vh',
@@ -23,7 +23,7 @@ const Unauthorized = () => {
             {t('notAuthorized')}
         </p>
         <PrimaryButton onClick={() => signIn('rise')}>{t('signIn')!}</PrimaryButton>
-</div>
+    </div>
 }
 
 async function redirectMainPage(ctx: any) {

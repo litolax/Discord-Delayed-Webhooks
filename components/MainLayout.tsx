@@ -8,7 +8,7 @@ import Footer from "./Footer";
 import {useTranslation} from "next-i18next";
 
 export default function MainLayout() {
-    const { t } = useTranslation('common')
+    const {t} = useTranslation('common')
     return (
         <>
             <Head>
@@ -20,7 +20,7 @@ export default function MainLayout() {
             <main className={styles.App}>
                 <div className={styles.container}>
                     <Header home={false}/>
-                    
+
                     <nav className={styles.navigation}>
                         <PrimaryButton href={'/createPost'}>{t('main.newPost')!}</PrimaryButton>
                         <PrimaryButton href={'/posts'}>{t('main.viewPosts')!}</PrimaryButton>

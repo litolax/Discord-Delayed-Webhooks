@@ -16,7 +16,7 @@ import {useTranslation} from "next-i18next";
 
 
 export default function Post(props: { post: IPost, onDelete?: Function }) {
-    const { t } = useTranslation('posts')
+    const {t} = useTranslation('posts')
     const creationDate = new Date(props.post.creationDate!).toLocaleString().toString();
     const publishDate = new Date(props.post.publishDate!).toLocaleString().toString();
 

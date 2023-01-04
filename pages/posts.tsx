@@ -13,7 +13,7 @@ import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {useTranslation} from "next-i18next";
 
 export default function MainLayout(props: { data: IPost[] }) {
-    const { t } = useTranslation('posts')
+    const {t} = useTranslation('posts')
     const [posts, setPosts] = useState(props.data);
 
     useEffect(() => {
@@ -25,7 +25,7 @@ export default function MainLayout(props: { data: IPost[] }) {
 
         if (!response.ok)
             throw new Error(response.statusText);
-        
+
         setPosts((prevState) => prevState.filter(v => v._id !== postId))
     }
 

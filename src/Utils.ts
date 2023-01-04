@@ -1,5 +1,5 @@
 ﻿export namespace Utils {
     export function hexToDecimal(hex: string) {
-        return parseInt(hex.replace("#",""), 16)
+        return parseInt(hex.replace("#", ""), 16)
     }
 }

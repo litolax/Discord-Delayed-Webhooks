@@ -1,5 +1,5 @@
 ﻿import NextAuth from "next-auth"
-import {signOut} from "next-auth/react";
+
 /**
  * Takes a token, and returns a new token with updated
  * `accessToken` and `accessTokenExpires`. If an error occurs,
@@ -70,7 +70,7 @@ export default NextAuth({
         error: '/'
     },
     callbacks: {
-        jwt({ token, user, account }) {
+        jwt({token, user, account}) {
             if (account && user) {
                 return {
                     accessToken: account.access_token,
@@ -86,7 +86,7 @@ export default NextAuth({
 
             return refreshAccessToken(token);
         },
-        async session({ session, token }: { session: any, token: any }) {
+        async session({session, token}: { session: any, token: any }) {
             session.user = token.user;
             session.accessToken = token.accessToken;
             session.error = token.error;

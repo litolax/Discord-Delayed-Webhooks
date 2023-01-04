@@ -9,8 +9,8 @@ import {useTranslation} from "next-i18next";
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 
-export default function AlertDialog(props: { content: { title: string, desc: string }, stateInfo: { state: boolean, stateFunc: Function}, agree?: Function, disagree?: Function }) {
-    const { t } = useTranslation('common')
+export default function AlertDialog(props: { content: { title: string, desc: string }, stateInfo: { state: boolean, stateFunc: Function }, agree?: Function, disagree?: Function }) {
+    const {t} = useTranslation('common')
     const handleClose = () => {
         props.stateInfo.stateFunc(false)
         props.disagree && props.disagree();
@@ -28,7 +28,7 @@ export default function AlertDialog(props: { content: { title: string, desc: str
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle 
+                <DialogTitle
                     id="alert-dialog-title"
                     style={{
                         background: 'rgb(19, 48, 79)'

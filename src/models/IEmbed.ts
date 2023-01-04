@@ -2,7 +2,7 @@ import {ObjectID} from "bson";
 
 export default interface IEmbed {
     _id: ObjectID,
-    title: string, 
+    title: string,
     color: number,
     description: string,
     thumbnail: string,
