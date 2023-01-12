@@ -104,8 +104,8 @@ app.prepare().then(() => {
 function sendWebhook(element) {
     let data = JSON.stringify({
         'content': element.content,
-        'username': `${element.username}`,
-        'avatar_url': `${element.avatarUrl}`,
+        ...(username.length > 0 && { 'username': element.username }),
+        ...(avatarUrl.length > 0 && { 'avatarUrl': element.avatarUrl }),
         'embeds': element.embeds
     })
 
