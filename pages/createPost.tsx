@@ -106,7 +106,6 @@ export default function MainLayout() {
     }
 
     async function sendPreviewPost(content: string) {
-        console.log(Utils.hexToDecimal(embedColor))
         const embed: IEmbed =
             {
                 _id: new ObjectId(),
@@ -128,11 +127,12 @@ export default function MainLayout() {
                 //todo fields
             }
 
-
+        console.log(username.length, avatarUrl.length)
+        
         let data = JSON.stringify({
             'content': content,
-            'username': `${username}`,
-            'avatar_url': `${avatarUrl}`,
+            ...(username.length > 0 && { 'username': username }),
+            ...(avatarUrl.length > 0 && { 'avatarUrl': avatarUrl }),
             'embeds': embedBuilder ? [embed] : []
         })
 
