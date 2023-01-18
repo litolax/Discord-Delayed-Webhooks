@@ -50,7 +50,7 @@ export default function Post(props: { post: IPost, onDelete?: Function }) {
                                 ${t('webhook')}: ${props.post.webhook}\n
                                 ${t('username')}: ${!props.post.username ? '-' : props.post.username}\n
                                 ${t('avatarUrl')}: ${!props.post.avatarUrl ? '-' : props.post.avatarUrl}\n
-                                ${t('embed.builderName')}: ${props.post.embeds.length > 0 ? `${t('embed.exists.yes')}` : `${t('embed.exists.no')}`}`
+                                ${t('embed.builderName')}: ${props.post.embeds && props.post.embeds.length > 0 ? `${t('embed.exists.yes')}` : `${t('embed.exists.no')}`}`
                             }
                         </Typography>
                         <Stack direction="row" spacing={3} sx={{marginTop: '25px', marginBottom: '15px'}}>
