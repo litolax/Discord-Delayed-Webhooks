@@ -67,7 +67,8 @@ export default function Post(props: { post: IPost; onDelete?: Function }) {
 								!props.post.avatarUrl ? '-' : props.post.avatarUrl
 							}\n
                                 ${t('embed.builderName')}: ${
-								props.post.embeds.length > 0
+                                    props.post.embeds &&
+                                    props.post.embeds.length > 0
 									? `${t('embed.exists.yes')}`
 									: `${t('embed.exists.no')}`
 							}`}
