@@ -4,7 +4,6 @@ const dotenv = require('dotenv');
 const MongoClient = require('mongodb').MongoClient;
 const url = require('url');
 const axios = require('axios');
-const bson = require('bson');
 
 dotenv.config({ path: './.env.local' });
 
@@ -133,4 +132,3 @@ function sendWebhook(element) {
 			return error;
 		});
 }
-

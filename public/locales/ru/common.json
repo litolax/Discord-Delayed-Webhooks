@@ -14,6 +14,8 @@
   },
   "delete": "Удалить",
   "notAuthorized": "Вы не авторизованы",
-  "signIn": "Авторизоваться",
+  "signInWith": {
+    "google": "Авторизация через google"
+  },
   "areYouSure": "Вы уверены?"
 }

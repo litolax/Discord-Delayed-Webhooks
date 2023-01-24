@@ -23,8 +23,8 @@ const Unauthorized = () => {
 			}}
 		>
 			<p>{t('notAuthorized')}</p>
-			<PrimaryButton onClick={() => signIn('rise')}>
-				{t('signIn')!}
+			<PrimaryButton onClick={() => signIn('google')}>
+				{t('signInWith.google')!}
 			</PrimaryButton>
 		</div>
 	);
