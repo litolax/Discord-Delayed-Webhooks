@@ -1,5 +1,6 @@
 ﻿import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
+import {connectToDatabase} from "../../../src/server/database";
 
 export default NextAuth({
 	providers: [
@@ -14,5 +15,15 @@ export default NextAuth({
 		signIn: '/',
 		signOut: '/',
 		error: '/'
+	},
+	callbacks: {
+		async signIn(props) {
+			const { db } = await connectToDatabase();
+			const collection = await db.collection('accounts');
+			const accounts = await collection.find({ email: props.user.email }).toArray();
+
+			if (accounts.length < 1) return '/unauthorized';
+			return true;
+		}
 	}
 });
